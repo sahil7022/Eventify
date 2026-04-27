@@ -2,7 +2,9 @@ import {
   createUserWithEmailAndPassword, 
   signInWithEmailAndPassword, 
   signOut,
-  updateProfile
+  updateProfile,
+  GoogleAuthProvider,
+  signInWithPopup
 } from "firebase/auth";
 import { 
   doc, 
@@ -50,6 +52,36 @@ export const firebaseService = {
     return { 
       user: {
         id: user.uid,
+        email: user.email,
+        name: user.displayName,
+        role: profile.role || 'participant'
+      },
+      token: await user.getIdToken()
+    };
+  },
+
+  loginWithGoogle: async () => {
+    const provider = new GoogleAuthProvider();
+    const userCredential = await signInWithPopup(auth, provider);
+    const user = userCredential.user;
+
+    // Check if user exists in Firestore, if not create
+    const profileSnap = await getDoc(doc(db, "users", user.uid));
+    let profile = profileSnap.exists() ? profileSnap.data() : null;
+
+    if (!profile) {
+      profile = {
+        name: user.displayName,
+        email: user.email,
+        role: 'participant',
+        created_at: new Date().toISOString()
+      };
+      await setDoc(doc(db, "users", user.uid), profile);
+    }
+
+    return {
+      user: {
+        uid: user.uid,
         email: user.email,
         name: user.displayName,
         role: profile.role || 'participant'
