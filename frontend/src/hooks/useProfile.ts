@@ -1,10 +1,15 @@
 import { useState, useEffect } from "react";
 import { UserProfile } from "../types";
 import { useNotification } from "../contexts/NotificationContext";
-import { api } from "../services/api";
+import { firebaseService } from "../services/firebaseService";
 
 export const useProfile = () => {
   const { showNotification } = useNotification();
+  const [user] = useState<any>(() => {
+    const saved = localStorage.getItem("user");
+    return saved ? JSON.parse(saved) : null;
+  });
+
   const [profile, setProfile] = useState<UserProfile>(() => {
     const saved = localStorage.getItem("user");
     return saved ? JSON.parse(saved) : {
@@ -27,11 +32,12 @@ export const useProfile = () => {
 
   useEffect(() => {
     const fetchProfile = async () => {
+      if (!user?.id) return;
       try {
-        const data = await api.getProfile();
-        if (data && !data.message) {
-          setProfile(data);
-          setTempProfile(data);
+        const data = await firebaseService.getProfile(user.id);
+        if (data) {
+          setProfile(data as any);
+          setTempProfile(data as any);
           localStorage.setItem("user", JSON.stringify(data));
         }
       } catch (err) {
@@ -39,19 +45,16 @@ export const useProfile = () => {
       }
     };
     fetchProfile();
-  }, []);
+  }, [user]);
 
   const handleSave = async () => {
+    if (!user?.id) return;
     try {
-      const result = await api.saveProfile(tempProfile);
-      if (result.success || !result.message) {
-        setProfile(tempProfile);
-        localStorage.setItem("user", JSON.stringify(tempProfile));
-        setIsEditing(false);
-        showNotification('success', 'Profile updated successfully.');
-      } else {
-        showNotification('error', result.message || 'Update failed.');
-      }
+      await firebaseService.updateProfile(user.id, tempProfile);
+      setProfile(tempProfile);
+      localStorage.setItem("user", JSON.stringify(tempProfile));
+      setIsEditing(false);
+      showNotification('success', 'Profile updated successfully.');
     } catch (err) {
       console.error("Profile update failed", err);
       showNotification('error', 'Could not update profile.');
@@ -59,21 +62,8 @@ export const useProfile = () => {
   };
 
   const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      try {
-        showNotification('info', 'Uploading identity image...');
-        const resp = await api.uploadPhoto(file);
-        if (resp.url) {
-          setTempProfile({ ...tempProfile, imageUrl: resp.url });
-          showNotification('success', 'Image uploaded.');
-        } else {
-          showNotification('error', resp.message || 'Upload failed.');
-        }
-      } catch (err) {
-        showNotification('error', 'Upload failed.');
-      }
-    }
+    // Note: Photo upload with Firebase Storage would be here
+    showNotification('info', 'Photo upload is currently manual for Firebase migration.');
   };
 
   const addInterest = () => {

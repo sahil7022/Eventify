@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Event, Booking, UserProfile } from "../types";
 import { useNotification } from "../contexts/NotificationContext";
-import { api } from "../services/api";
+import { firebaseService } from "../services/firebaseService";
 
 export const useDashboard = () => {
   const { showNotification } = useNotification();
@@ -22,14 +22,14 @@ export const useDashboard = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const allEvents = await api.getEvents();
-        setEvents(allEvents);
+        const allEvents = await firebaseService.getEvents();
+        setEvents(allEvents as any);
 
-        if (user) {
-          const myBookings = await api.getRegistrations();
-          setBookings(myBookings);
+        if (user && user.uid) {
+          const myBookings = await firebaseService.getUserRegistrations(user.uid);
+          setBookings(myBookings as any);
         }
-      } catch (err) {
+      } catch (err: any) {
         console.error("Dashboard data fetch failed:", err);
         showNotification('error', 'Failed to synchronize mission data.');
       } finally {

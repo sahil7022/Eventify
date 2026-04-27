@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Lock, Mail, ArrowRight, ShieldCheck, Home } from "lucide-react";
 import { useNotification } from "../contexts/NotificationContext";
 import { api } from "../services/api";
+import { firebaseService } from "../services/firebaseService";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -35,9 +36,9 @@ export default function Login() {
       setError("");
       
       const { email, password } = form;
-      const result = await api.login({ email, password });
+      const result = await firebaseService.login(email, password);
 
-      if (result.token) {
+      if (result.user) {
         localStorage.setItem("user", JSON.stringify(result.user));
         localStorage.setItem("token", result.token);
         showNotification('success', result.user.role === 'admin' ? 'Welcome, Strategic Admin.' : 'Identification Verified.');
@@ -45,9 +46,6 @@ export default function Login() {
         setTimeout(() => {
           window.location.href = "/dashboard";
         }, 800);
-      } else {
-        setError(result.message || "Login failed. Please check your credentials.");
-        showNotification('error', result.message || 'Login failed.');
       }
 
     } catch (err: any) {

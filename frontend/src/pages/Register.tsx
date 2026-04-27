@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Users, Globe, Building2, Activity, ShieldCheck, ArrowRight, ChevronLeft, Calendar, User, Sparkles } from "lucide-react";
 import { useNotification } from "../contexts/NotificationContext";
 import { api } from "../services/api";
+import { firebaseService } from "../services/firebaseService";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -65,17 +66,18 @@ export default function Register() {
         year: form.year
       };
 
-      const result = await api.register(registerData);
+
+      const result = await firebaseService.register(registerData);
       
       if (result.user) {
-        showNotification('success', 'Account created successfully! Please login.');
-        navigate("/login");
+        showNotification('success', 'Account created successfully! Welcome to Eventify.');
+        navigate("/dashboard"); // Firebase often logs you in immediately
       } else {
         showNotification('error', result.message || 'Registration failed.');
       }
     } catch (err: any) {
       console.error(err);
-      showNotification('error', 'Registration failed. Is the backend running?');
+      showNotification('error', err.message || 'Registration failed. Please check your connection.');
     } finally {
       setLoading(false);
     }
