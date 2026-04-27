@@ -1,0 +1,9 @@
+[dotenv@17.3.1] injecting env (8) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+❌ Migration failed: Error: connect ETIMEDOUT 2406:da14:271:9922:bfda:4da8:adfb:1c0:5432
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -4039,
+  code: 'ETIMEDOUT',
+  syscall: 'connect',
+  address: '2406:da14:271:9922:bfda:4da8:adfb:1c0',
+  port: 5432
+}

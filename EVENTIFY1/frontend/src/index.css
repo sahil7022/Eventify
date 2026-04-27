@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-bg: #0f172a;
+  --color-brand-card: rgba(30, 41, 59, 0.4);
+  --color-brand-accent: #818cf8;
+  --color-brand-accent-glow: rgba(129, 140, 248, 0.3);
+  --color-brand-text-primary: #f1f5f9;
+  --color-brand-text-secondary: #94a3b8;
+  --color-brand-border: rgba(148, 163, 184, 0.1);
+  --color-brand-glass: rgba(255, 255, 255, 0.03);
+  
+  --font-sans: "Inter", "Outfit", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Outfit", "Inter", sans-serif;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-brand-bg);
+    color: var(--color-brand-text-primary);
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden; /* Prevent body scroll, use app scrollbars */
+  }
+}
+
+.glass-panel {
+  background: var(--color-brand-card);
+  border: 1px solid var(--color-brand-border);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.glass-item {
+  background: var(--color-brand-glass);
+  border: 1px solid var(--color-brand-border);
+}
+
+.text-glow {
+  text-shadow: 0 0 10px var(--color-brand-accent-glow);
+}
+
+.ticket-edge {
+  position: relative;
+  mask-image: radial-gradient(circle at 0px 50%, transparent 12px, black 12px);
+}
+
+.ticket-edge-right {
+  position: relative;
+  mask-image: radial-gradient(circle at 100% 50%, transparent 12px, black 12px);
+}
+
+/* Scrollbar hide for categories */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

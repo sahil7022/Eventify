@@ -1,0 +1,28 @@
+﻿[dotenv@17.3.1] injecting env (8) from .env -- tip: ΓÜÖ∩╕Å  specify custom .env file path with { path: '/custom/path/.env' }
+[dotenv@17.3.1] injecting env (0) from .env -- tip: ≡ƒöÉ prevent committing .env to code: https://dotenvx.com/precommit
+[dotenv@17.3.1] injecting env (0) from .env -- tip: ≡ƒ¢í∩╕Å auth for agents: https://vestauth.com
+[dotenv@17.3.1] injecting env (0) from .env -- tip: ΓÜÖ∩╕Å  specify custom .env file path with { path: '/custom/path/.env' }
+≡ƒÜÇ Server is running on port 5000
+node : Γ¥î Error 
+acquiring client for 
+Supabase: Error: connect 
+ETIMEDOUT 2406:da14:271:99
+22:bfda:4da8:adfb:1c0:5432
+At line:1 char:1
++ node backend/server.js 
+2>&1 | Out-File -FilePath 
+log_final.txt -Encod ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~
+    + CategoryInfo        
+      : NotSpecified: (Γ  
+  ¥î Error acqui...8:ad   
+ fb:1c0:5432:String) [    
+], RemoteException
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+    at TCPConnectWrap.afte
+rConnect [as oncomplete] 
+(node:net:1645:16)

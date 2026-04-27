@@ -1,0 +1,39 @@
+{
+  "name": "eventify",
+  "version": "1.0.0",
+  "description": "Eventify is a full-featured College Event Management System designed to handle and organize technical, cultural, and inter-college events in an efficient, user-friendly way.\r <br>\r Built as a final-year BCA project, Eventify aims to be strong and polished enough for official use by colleges.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js",
+    "client": "npm run dev --prefix frontend",
+    "all": "concurrently \"npm run start\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Samarth-birje/EVENTIFY.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Samarth-birje/EVENTIFY/issues"
+  },
+  "homepage": "https://github.com/Samarth-birje/EVENTIFY#readme",
+  "dependencies": {
+    "@supabase/ssr": "^0.10.2",
+    "@supabase/supabase-js": "^2.105.0",
+    "axios": "^1.15.2",
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "crypto": "^1.0.1",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mysql2": "^3.19.1",
+    "nodemailer": "^8.0.3",
+    "pg": "^8.20.0"
+  }
+}
